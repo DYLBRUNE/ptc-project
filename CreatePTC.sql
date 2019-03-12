@@ -5,12 +5,9 @@
 /************************************************************/
 DROP DATABASE IF EXISTS PTC;
 
-
-
 CREATE DATABASE PTC;
 
 USE PTC;
-
 
 CREATE TABLE District (
   district_id     TINYINT, 
@@ -33,7 +30,7 @@ CREATE TABLE School (
   school_abbr         VARCHAR(3),
   school_district_id  TINYINT,
   PRIMARY KEY(school_id),
-  FOREIGN KEY(school_district_id) REFERENCES District(district_id)
+  FOREIGN KEY district_id (school_district_id) REFERENCES District(district_id)
 );
 
 INSERT INTO School VALUES(1, "St. Charles High", "SCH", 1);
@@ -93,10 +90,10 @@ CREATE TABLE Student (
   student_counselor_staff_id    TINYINT,
   student_home_school_id        TINYINT,
   PRIMARY KEY(student_id),
-  FOREIGN KEY(student_resource_staff_id) REFERENCES Staff(staff_id),
-  FOREIGN KEY(student_counselor_staff_id) REFERENCES Staff(staff_id),
-  FOREIGN KEY(student_staff_id) REFERENCES Staff(staff_id),
-  FOREIGN KEY(student_home_school_id) REFERENCES School(school_id)
+  FOREIGN KEY resource_id (student_resource_staff_id) REFERENCES Staff(staff_id),
+  FOREIGN KEY counselor_id (student_counselor_staff_id) REFERENCES Staff(staff_id),
+  FOREIGN KEY staff_id (student_staff_id) REFERENCES Staff(staff_id),
+  FOREIGN KEY school_id (student_home_school_id) REFERENCES School(school_id)
 );
 /* id, fname, lname, teacher, email, resource?, resource counselor, counselor, home school*/
 INSERT INTO Student VALUES(1, "John", "Smith", 1, "jsmith@stcharlessd.org", false, null, 5, 9);
@@ -108,3 +105,22 @@ INSERT INTO Student VALUES(6, "Jar Jar", "Binks", 2, "jjbinks@stcharlessd.org", 
 INSERT INTO Student VALUES(7, "Shaggy", "Rogers", 1, "srogers@stcharlessd.org", false, null, 5, 11);
 INSERT INTO Student VALUES(8, "Squidward", "Tentacles", 4, "stentacles@stcharlessd.org", true, 7, 6, 14);
 INSERT INTO Student VALUES(9, "Sqwilliam", "Fancyson-Tentacles", 1, "sfancyson@stcharlessd.org", false, null, 5, 14);
+
+
+CREATE TABLE Guardian (
+  guardian_id           INTEGER,
+  guardian_fname        VARCHAR(16),
+  guardian_lname        VARCHAR(20),
+  guardian_address1     VARCHAR(32),
+  guardian_address2     VARCHAR(32),
+  guardian_city         VARCHAR(32),
+  guardian_state        VARCHAR(2),
+  guardian_zip          VARCHAR(5),
+  guardian_email        VARCHAR(32),
+  guardian_cell         VARCHAR(12),
+  guardian_home_phone   VARCHAR(12),
+  PRIMARY KEY(guardian_id)
+);
+/* id, fname, lname, address1, address2, city, state, ZIP, email, cell, home phone*/
+INSERT INTO Guardian VALUES(1, "Arnold", "Schwarzenegger", "15 Ma Boi St.", null, 
+                            "St. Charles", "MO", "63301", "aschwarzenegger@yahoo.com", "636-132-1487", null);
